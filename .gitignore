@@ -37,6 +37,3 @@ pytest_cache/
 # Temporary files
 tmp/
 temp/
-
-# Screenshot files
-edvc_screenshot.png
