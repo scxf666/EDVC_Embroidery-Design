@@ -1,0 +1,29 @@
+{
+  "zh": {
+    "title": "联系我们",
+    "message": "如果您有任何问题或建议，请通过以下方式联系我们：",
+    "contact_info": {
+      "email": "18146125@qq.com",
+      "phone": "+86 13666496993",
+      "website": " "
+    }
+  },
+  "en": {
+    "title": "Contact Us",
+    "message": "If you have any questions or suggestions, please contact us through:",
+    "contact_info": {
+      "email": "18146125@qq.com",
+      "phone": "+86 13666496993",
+      "website": " "
+    }
+  },
+  "es": {
+    "title": "Contáctenos",
+    "message": "Si tiene alguna pregunta o sugerencia, por favor contáctenos a través de:",
+    "contact_info": {
+      "email": "18146125@qq.com",
+      "phone": "+86 13666496993",
+      "website": " "
+    }
+  }
+}

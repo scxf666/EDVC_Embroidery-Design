@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDVC - Embroidery Design Viewer and Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="app">
+        <header id="header">
+            <div class="header-title">
+                <h1 id="app-title">EDVC - 刺绣设计查看器和转换器</h1>
+            </div>
+            <div class="header-toolbar">
+
+                <div class="toolbar-group main-buttons">
+                    <button id="btn-open" class="main-btn" data-title-i18n="btn.open">
+                        <span class="icon">📁</span>
+                        <span class="btn-text" data-i18n="btn.open">打开</span>
+                    </button>
+                    <button id="btn-add-background" class="main-btn" data-title-i18n="btn.add_background">
+                        <span class="icon">🖼️</span>
+                        <span class="btn-text" data-i18n="btn.add_background">添加背景</span>
+                    </button>
+                    <button id="btn-export" class="main-btn" data-title-i18n="btn.export">
+                        <span class="icon">💾</span>
+                        <span class="btn-text" data-i18n="btn.export">导出图片</span>
+                    </button>
+                    <button id="btn-convert" class="main-btn" data-title-i18n="btn.convert">
+                        <span class="icon">🔄</span>
+                        <span class="btn-text" data-i18n="btn.convert">转换格式</span>
+                    </button>
+                    <button id="btn-contact" class="main-btn" data-title-i18n="btn.contact">
+                        <span class="icon">📧</span>
+                        <span class="btn-text" data-i18n="btn.contact">联系</span>
+                    </button>
+                </div>
+                                <div class="toolbar-group">
+                    <button id="btn-zoom-out" class="toolbar-btn" data-title-i18n="btn.zoom_out">
+                        <span class="icon">−</span>
+                    </button>
+                    <span id="zoom-level" class="zoom-display">100%</span>
+                    <button id="btn-zoom-in" class="toolbar-btn" data-title-i18n="btn.zoom_in">
+                        <span class="icon">+</span>
+                    </button>
+                    <button id="btn-zoom-fit" class="toolbar-btn" data-title-i18n="btn.zoom_fit">
+                        <span class="icon">⊡</span>
+                    </button>
+                    <button id="btn-zoom-100" class="toolbar-btn" data-title-i18n="btn.zoom_100">
+                        <span class="icon">1:1</span>
+                    </button>
+                </div>
+                <div class="toolbar-group language-selector">
+                    <select id="language-select">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+
+
+        <main id="main-content">
+            <aside id="left-panel" class="panel">
+                <div class="panel-section" id="description-section">
+                    <div class="panel-header">
+                        <span data-i18n="panel.description">描述文本</span>
+                        <div class="panel-btn-group">
+                            <button class="panel-btn" id="btn-add-text-to-canvas" title="添加到画布">↑</button>
+                            <button class="panel-btn" id="btn-update-text" title="更新选中文字">✓</button>
+                        </div>
+                    </div>
+                    <div class="editor-toolbar">
+                        <select id="desc-font-family">
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="SimSun">宋体</option>
+                            <option value="SimHei">黑体</option>
+                        </select>
+                        <input type="number" id="desc-font-size" value="14" min="8" max="72">
+                        <input type="color" id="desc-font-color" value="#000000">
+                    </div>
+                    <textarea id="description-text" placeholder="输入描述文本..." class="resizable-textarea" data-placeholder-i18n="placeholder.description"></textarea>
+                    
+                    <div id="animation-controls" class="animation-controls hidden">
+                        <div class="control-row">
+                            <button class="anim-btn" id="btn-play" data-title-i18n="btn.play">▶</button>
+                            <button class="anim-btn" id="btn-pause" data-title-i18n="btn.pause">⏸</button>
+                            <button class="anim-btn" id="btn-reset" data-title-i18n="btn.reset">⏹</button>
+                            <span id="animation-progress">0 / 0</span>
+                        </div>
+                        <div class="control-row">
+                            <label data-i18n="label.playback_speed">播放速度:</label>
+                            <input type="range" id="animation-speed" min="1" max="100" value="50">
+                            <span id="speed-value">50</span>
+                        </div>
+                    </div>
+                    <div class="panel-header">
+                        <span data-i18n="panel.stitch_list">针迹清单</span>
+                        <div class="panel-btn-group">
+                            <button class="panel-btn" id="btn-animation" title="针迹动画">▶</button>
+                            <button class="panel-btn" id="btn-random-color" title="随机配色">🎨</button>
+                            <button class="panel-btn" id="btn-insert-all-stitches" title="一键插入全部针迹到描述文本">↓</button>
+                        </div>
+                    </div>
+                    <div id="stitch-list" class="item-list"></div>
+                </div>
+            </aside>
+
+            <div id="canvas-container">
+                <canvas id="main-canvas"></canvas>
+                <div id="minimap-container" class="minimap">
+                    <canvas id="minimap-canvas"></canvas>
+                    <div id="minimap-viewport"></div>
+                </div>
+            </div>
+
+            <aside id="right-panel" class="panel">
+                <div class="panel-section" id="text-list-section">
+                    <div class="panel-header">
+                        <span data-i18n="panel.canvas_text">画布文字</span>
+                    </div>
+                    <div class="panel-content">
+                        <div id="text-list" class="item-list"></div>
+                    </div>
+                </div>
+                <div class="panel-section" id="properties-section">
+                    <div class="panel-header">
+                        <span data-i18n="panel.properties">属性</span>
+                        <button class="panel-btn" id="btn-add-info-to-text" title="添加到文本编辑框">↓</button>
+                    </div>
+                    <div class="panel-content">
+                        <div id="file-info" class="info-grid">
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.filename">文件名</span>
+                                <span class="info-value" id="info-filename">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.format">格式</span>
+                                <span class="info-value" id="info-format">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.size">尺寸</span>
+                                <span class="info-value" id="info-size">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.stitches">针数</span>
+                                <span class="info-value" id="info-stitches">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.colors">颜色数</span>
+                                <span class="info-value" id="info-colors">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.last_modified">最后修改日期</span>
+                                <span class="info-value" id="info-last-modified">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label" data-i18n="label.file_size">文件大小</span>
+                                <span class="info-value" id="info-file-size">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer id="footer">
+            <div class="status-bar">
+                <span id="status-message">就绪</span>
+                <span id="status-coordinates">X: 0, Y: 0</span>
+            </div>
+        </footer>
+    </div>
+
+    <input type="file" id="file-input" accept=".dst,.pes,.jef,.exp,.vp3,.pec,.xxx,.sew" style="display: none;">
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-header">
+                <span id="modal-title">标题</span>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content" id="modal-content"></div>
+            <div class="modal-footer">
+                <button id="modal-cancel" class="btn btn-secondary">取消</button>
+                <button id="modal-confirm" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
