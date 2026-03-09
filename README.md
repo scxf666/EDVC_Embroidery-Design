@@ -120,9 +120,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact Us
 
-- **Email**: support@edvc.com
-- **Phone**: +86 123 4567 8910
-- **Website**: www.edvc.com
+- **Email**: 18146125@qq.com    
+- **Phone**: +86 136 6649 6993
+- **Website**: 
 
 ---
 
