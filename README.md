@@ -2,6 +2,8 @@
 
 EDVC is a professional embroidery design viewing and conversion tool that supports viewing, editing, and converting multiple embroidery file formats.
 
+![EDVC Screenshot](edvc_screenshot.png)
+
 ## Features
 
 - **Support for multiple embroidery file formats**: DST, PES, JEF, EXP, VP3, PEC, XXX, SEW, DSB, U01, TBF
